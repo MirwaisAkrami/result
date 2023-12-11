@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.result</groupId>
+    <artifactId>result</artifactId>
+    <version>1.0</version>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- This dependency is not required for Result Class
+        It is just used to show that it can be seamlessly integrated with this library to 
+    return the validation errors in the Result format, if you remove this library, make sure to 
+remove the function using the Error class from this library -->
+        <dependency>
+            <groupId>com.github.mvallim</groupId>
+            <artifactId>java-fluent-validator</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+    </dependencies>
+</project>
