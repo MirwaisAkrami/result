@@ -27,16 +27,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class YourService {
+public class CatService {
 
     // Inject dependencies as needed
     // @Autowired
-    // private YourRepository yourRepository;
+    // private CatRepository catRepository;
 
-    public Result<YourDataType> findById(Long id) {
+    public Result<Cat> findById(Long id) {
         // Your logic to fetch data from a repository or perform any operation
 
-        YourDataType data = /* ... */;
+        Cat data = catRepository.findById(id);
 
         if (data != null) {
             // Operation successful
@@ -47,14 +47,15 @@ public class YourService {
         }
     }
 
-    public Result<Void> create(YourDataType requestData) {
+    public Result<Cat> create(Catdto requestData) {
         // Your logic to create a new record
 
         try {
-            // Perform the operation
-
+            // Perform the validation and operation
+            Cat cat = mapper.map(requestData)
+            cat = dataRepository.save(cat)
             // If successful, return success result
-            return Result.success("Record created successfully");
+            return Result.success(cat, "Record created successfully");
         } catch (Exception e) {
             // Log the exception
 
@@ -74,22 +75,22 @@ Your Spring MVC controller can then call these service methods and handle the Re
 
 ```
 @RestController
-@RequestMapping("/api/yourresource")
-public class YourController {
+@RequestMapping("/api/cats")
+public class CatsController {
 
     @Autowired
-    private YourService yourService;
+    private YourService catService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Result<YourDataType>> getById(@PathVariable Long id) {
-        Result<YourDataType> result = yourService.findById(id);
+    public ResponseEntity<Result<Cat>> getById(@PathVariable Long id) {
+        Result<Cat> result = catService.findById(id);
 
         return ResponseEntity.status(result.getStatus().value()).body(result);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Result<Void>> create(@RequestBody YourDataType requestData) {
-        Result<Void> result = yourService.create(requestData);
+    public ResponseEntity<Result<Cat>> create(@RequestBody Catdto requestData) {
+        Result<Cat> result = yourService.create(requestData);
         return ResponseEntity.status(result.getStatus().value()).body(result);
     }
 
@@ -107,9 +108,10 @@ https://github.com/mvallim/java-fluent-validator
 
 ```
 import br.com.fluentvalidator.context.Error;
+
 ...
 
-// This method is used to integrate the fluent validation error collection
+    // This method is used to integrate the fluent validation error collection
     public static <T> Result<T> invalid(Collection<Error> errors) {
         List<ValidationError> validationErrors = new ArrayList<>();
         for (Error error : errors) {
@@ -134,9 +136,9 @@ public class YourService {
     @Autowired
     private YourEntityCreateValidator yourEntityCreateValidator;
 
-    public Result<EntityDetailDto> create(EntityDataDto data) {
+    public Result<Cat> create(Catdto data) {
         // Use the fluent validator to perform validation
-        ValidationResult validationResult = yourEntityCreateValidator.validate(data);
+        ValidationResult validationResult = CatCreateValidator.validate(data);
 
         if(!validationResult.isValid()) {
             return Result.invalid(validationResult.getErrors());
