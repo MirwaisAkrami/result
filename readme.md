@@ -30,8 +30,8 @@ import org.springframework.stereotype.Service;
 public class CatService {
 
     // Inject dependencies as needed
-    // @Autowired
-    // private CatRepository catRepository;
+    @Autowired
+    private CatRepository catRepository;
 
     public Result<Cat> findById(Long id) {
         // Your logic to fetch data from a repository or perform any operation
@@ -95,6 +95,36 @@ public class CatsController {
     }
 
     // Add more controller methods as needed
+}
+
+```
+
+The above code will always return response in the form of 
+```
+{
+  "isSuccess": true,
+  "status": "OK",
+  "successMessage": "Record created successfully",
+  "data": {
+    id: 1,
+    name: 'kitten',
+    age: '3months'
+  },
+  "errors": [],
+  "validationErrors": []
+}
+
+```
+
+And in case of some error
+```
+{
+  "isSuccess": false,
+  "status": "BAD_REQUEST",
+  "successMessage": "Error creating record",
+  "data": null,
+  "errors": [],
+  "validationErrors": []
 }
 
 ```
