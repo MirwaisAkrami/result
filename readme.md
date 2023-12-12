@@ -161,14 +161,14 @@ import br.com.fluentvalidator.context.Error;
 Here's an example of how to use it in your service layer:
 
 ```
-public class YourService {
+public class CatService {
 
     @Autowired
-    private YourEntityCreateValidator yourEntityCreateValidator;
+    private CatCreateValidator catCreateValidator;
 
     public Result<Cat> create(Catdto data) {
         // Use the fluent validator to perform validation
-        ValidationResult validationResult = CatCreateValidator.validate(data);
+        ValidationResult validationResult = catCreateValidator.validate(data);
 
         if(!validationResult.isValid()) {
             return Result.invalid(validationResult.getErrors());
